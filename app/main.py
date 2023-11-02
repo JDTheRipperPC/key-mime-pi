@@ -154,9 +154,12 @@ def keyboard():
     except Exception as e:
         # Log any exceptions
         print("Error:", str(e))
-        return "Error processing request", 500
+        return "Error processing request:", str(e), 500
 
 
 if __name__ == '__main__':
-    print("HID path:", hid_path)
     app.run(host='0.0.0.0', debug=True)
+
+"""
+curl -X POST -H "Content-Type: application/json" -d '{"data": ["1", "a", "p"]}' http://192.168.1.37:5000/keyboard
+"""
