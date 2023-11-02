@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import os
+import hid
+
 from flask import Flask, request
 
 ASCII_TO_HID_KEYCODES = {
@@ -126,6 +129,7 @@ ASCII_TO_HID_KEYCODES = {
 }
 
 app = Flask(__name__)
+hid_path = os.environ.get('HID_PATH', '/dev/hidg0')
 
 @app.route('/keyboard', methods=['POST'])
 def keyboard():
@@ -143,6 +147,7 @@ def keyboard():
             # replace prints by hid_handler from hid file
             print("buffer", bytearray(buf))
             print("buffer", bytearray([0] * 8))
+            hid.send(hid_path, 0, ASCII_TO_HID_KEYCODES[ord(item)])
 
         return "Data received successfully", 200
 
@@ -153,4 +158,5 @@ def keyboard():
 
 
 if __name__ == '__main__':
+    print("HID path:", hid_path)
     app.run(host='0.0.0.0', debug=True)
