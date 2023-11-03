@@ -154,7 +154,7 @@ def keyboard():
     except Exception as e:
         # Log any exceptions
         print("Error:", str(e))
-        return "Error processing request:", str(e), 500
+        return "Error processing request:" + str(e), 500
 
 
 if __name__ == '__main__':
